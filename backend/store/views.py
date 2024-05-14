@@ -9,8 +9,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
 
-
-
 class ProductView(APIView):
     def post(self, request):
         serializer = ProductSerializer(data=request.data)

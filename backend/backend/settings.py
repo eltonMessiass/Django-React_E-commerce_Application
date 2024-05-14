@@ -138,7 +138,7 @@ DATABASES = {
         'NAME': 'django_ecommerce_db',
         'USER': 'postgres',
         'PASSWORD': 'messias8669',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
     }
 }
 
