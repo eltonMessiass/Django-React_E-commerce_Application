@@ -9,6 +9,25 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
 
+class CategoryView(APIView):
+    def post(self, request):
+        try:
+            serializer = CategorySerializer(data=request.serializer)
+            if serializer.is_valid():
+                serializer.save()
+                return Reponse(serializer.data, status=status.HTTP_201_CREATED)
+        except e as Exception:
+            return Reponse(e, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        categories = Category.objects.all()
+        serializer = ProductSerializer(categories, many=True)
+        return Response(serializer.data, status.status.HTTP_200_OK)
+
+
+    
+
+
 class ProductView(APIView):
     def post(self, request):
         serializer = ProductSerializer(data=request.data)
