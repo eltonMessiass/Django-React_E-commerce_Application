@@ -19,17 +19,6 @@ class CategoryListCreate(generics.ListCreateAPIView):
         else:
             return Response(serializer.errors)
 
-class CategoryView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, pk):
-        category = self.get_object(pk)
-        serializer = CategorySerializer(category)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def delete(self, request, pk):
-        category = self.get_object(pk)
-        category.delete()
       
 
     
