@@ -7,7 +7,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
 
-
 class CategoryListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CategorySerializer
@@ -18,10 +17,9 @@ class CategoryListCreate(generics.ListCreateAPIView):
             serializer.save()
         else:
             return Response(serializer.errors)
+        
 
-      
 
-    
 
     
 class ProductListCreate(generics.ListCreateAPIView):
