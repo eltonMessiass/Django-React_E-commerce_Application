@@ -1,7 +1,7 @@
 from django.http import Http404
 from rest_framework import status, generics
-from .serializers import CategorySerializer, ProductSerializer
-from .models import Category, Product
+from .serializers import CategorySerializer, ProductSerializer,OrderSerializer
+from .models import Category, Product, Order
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -18,8 +18,6 @@ class CategoryListCreate(generics.ListCreateAPIView):
         else:
             return Response(serializer.errors)
         
-
-
 
     
 class ProductListCreate(generics.ListCreateAPIView):
@@ -42,10 +40,7 @@ class ProductListByCategory(generics.ListAPIView):
         category = self.kwargs['category']
         products = Product.objects.filter(category=category)
         return products
-
-
-
-        
+     
 
 class ProductView(APIView):
     def get_object(self,pk):
@@ -53,18 +48,6 @@ class ProductView(APIView):
             return Product.objects.get(pk=pk)
         except Product.DoesNotExist:
             raise Http404
-        
-    def post(self, request):
-        serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request):
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
     
     def get(self, request, pk, format=None):
         product = self.get_object(pk)
@@ -87,6 +70,14 @@ class ProductView(APIView):
         except Product.DoesNotExist:
             raise Http404
 
+class OrderView(APIView):
+    def post(self, request):
+        pass
+
+    def get(self, request):
+        orders = Order.objects.all()
+        serializer = OrderSerializer(orders)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 
@@ -94,37 +85,3 @@ class ProductView(APIView):
     
 
     
-
-
-
-
-# @api_view(['get'])
-# def category_view(request):
-#     if request.method == 'GET':
-#         try:
-#             categories = Category.objects.all()
-#             serializer = CategorySerializer(categories, many=True)
-#             return Response(serializer.data)
-#         except Exception as e:
-#             return Response(f"Error: {e}")
-#
-#
-# @api_view(['post', 'GET'])
-# def product_view(request):
-#     if request.method == 'POST':
-#         try:
-#             serializer = ProductSerializer(data=request.data)
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         except Exception as e:
-#             return Response(f"Error: {e}")
-#     elif request.method == 'GET':
-#         try:
-#             products = Product.objects.all()
-#             serializer = ProductSerializer(products, many=True)
-#             return Response(serializer.data)
-#         except Exception as e:
-#             return Response(f"Error: {e}")
-
