@@ -15,6 +15,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    customer = serializers.StringRelatedField()
     class Meta:
         model = Order
-        fields = ["customer", "phone","status","created_at"]
+        fields = ["id", "customer", "status", "created_at"]
+        extra_Kwargs = {"created_at":{"read_only":True}}

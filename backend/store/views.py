@@ -4,7 +4,8 @@ from .serializers import CategorySerializer, ProductSerializer,OrderSerializer
 from .models import Category, Product, Order
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
+
 
 
 class CategoryListCreate(generics.ListCreateAPIView):
@@ -71,13 +72,12 @@ class ProductView(APIView):
             raise Http404
 
 class OrderView(APIView):
-    def post(self, request):
-        pass
 
     def get(self, request):
         orders = Order.objects.all()
-        serializer = OrderSerializer(orders)
+        serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
 
 
 
