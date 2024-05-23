@@ -25,7 +25,7 @@ class Product(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_id")
-    phone = models.CharField(max_length=20, blank=True, null=True)
+    phone = models.CharField(max_length=20)
     status = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
