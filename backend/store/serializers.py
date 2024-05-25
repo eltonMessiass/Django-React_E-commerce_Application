@@ -1,4 +1,4 @@
-from .models import Category, Product, Order
+from .models import Category, Product, Order, OrderItem
 from rest_framework import serializers
 
 
@@ -20,3 +20,9 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ["id", "customer","phone", "status", "created_at"]
         extra_Kwargs = {"created_at":{"read_only":True}}
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        filds = []
