@@ -1,4 +1,4 @@
-from .views import ProductListCreate, CategoryListCreate, ProductListByCategory, ProductView, OrderView
+from .views import ProductListCreate, CategoryListCreate, ProductListByCategory, ProductView, OrderView, OrderItemView
 from django.urls import path
 
 urlpatterns = [
@@ -9,5 +9,7 @@ urlpatterns = [
     path('products/<int:pk>/', ProductView.as_view(), name="product_details"),
     path('products/category/<int:category>/', ProductListByCategory.as_view(), name="product_list_by_category"),
     path('orders/', OrderView.as_view(), name="all_orders"),
-    path('orders/new/',OrderView.as_view(), name="new_order" )
+    path('orders/new/',OrderView.as_view(), name="new_order" ),
+    path('orders/item/', OrderItemView.as_view(), name="order_item")
+
 ]

@@ -14,15 +14,16 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    # customer = serializers.StringRelatedField()
-    class Meta:
-        model = Order
-        fields = ["id", "customer","phone", "status", "created_at"]
-        extra_Kwargs = {"created_at":{"read_only":True}}
-
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        filds = []
+        fields = ["order", "product", "quantity", "price", "subtotal"]
+
+class OrderSerializer(serializers.ModelSerializer):
+    # customer = serializers.StringRelatedField()
+    items = OrderItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = Order
+        fields = ["id", "customer","phone", "status", "created_at", "items"]
+        extra_Kwargs = {"created_at":{"read_only":True}}
