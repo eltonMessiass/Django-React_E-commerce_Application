@@ -22,7 +22,7 @@ class CategoryListCreate(generics.ListCreateAPIView):
 
     
 class ProductListCreate(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
