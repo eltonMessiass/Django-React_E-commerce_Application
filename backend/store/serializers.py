@@ -22,6 +22,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField()
     class Meta:
         model = OrderItem
         fields = ["order", "product", "quantity", "price", "subtotal"]

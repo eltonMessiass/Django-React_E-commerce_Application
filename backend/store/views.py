@@ -44,6 +44,7 @@ class ProductListByCategory(generics.ListAPIView):
      
 
 class ProductView(APIView):
+    permission_classes=[AllowAny]
     def get_object(self,pk):
         try:
             return Product.objects.get(pk=pk)
@@ -73,10 +74,17 @@ class ProductView(APIView):
 
 class OrderView(APIView):
 
+    # def get(self, request):
+    #     orders = Order.objects.all()
+    #     serializer = OrderSerializer(orders, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    permission_classes = [AllowAny]
     def get(self, request):
-        orders = Order.objects.all()
-        serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        user = request.user
+        order = Order.objects.filter(customer=user)
+        serializer = OrderSerializer(order, many=True)
+        return Response(serializer.data)
+
     
     def post(self, request):
         serializer = OrderSerializer(data=request.data)
@@ -86,7 +94,7 @@ class OrderView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class OrderItemView(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = OrderItemSerializer
     queryset = OrderItem.objects.all()
 
