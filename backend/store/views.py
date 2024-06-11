@@ -73,17 +73,15 @@ class ProductView(APIView):
             raise Http404
 
 class OrderView(APIView):
-
-    # def get(self, request):
-    #     orders = Order.objects.all()
-    #     serializer = OrderSerializer(orders, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user
-        order = Order.objects.filter(customer=user)
-        serializer = OrderSerializer(order, many=True)
-        return Response(serializer.data)
+        if user.is_authenticated:  
+            order = Order.objects.filter(customer=user)
+            serializer = OrderSerializer(order, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({"detail": "Authentication credentials were not provided."}, status=401)
 
     
     def post(self, request):
