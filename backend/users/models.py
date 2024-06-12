@@ -1,12 +1,18 @@
 from django.db import models
-from rest_framework.permissions import BasePermission
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
-class Customer(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=20)
-    email = models.EmailField()
-    password = models.CharField(max_length=100)
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+# class CustomerUser(AbstractUser):
+#     pass
+
+class CustomerUser(AbstractUser):
+    groups =models.ManyToManyField(Group, related_name='customer_user', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='customer_set', blank=True)
+
+from store.models import Cart
+@receiver(post_save, sender=CustomerUser)
+def create_user_cart(sender, instance, created, **Kwargs):
+    if created:
+        Cart.objects.create(user=instance)

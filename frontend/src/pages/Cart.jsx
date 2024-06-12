@@ -1,45 +1,48 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../components/CartProvider';
 import api from '../api';
 
-export const cartContext = createContext();
+export const cartContext = createContext(CartContext);
 
 function Cart() {
   const [order, setOrder] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
+ 
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const { cartItems } = useContext(cartContext);
 
-  const addToCart = (item) => {
-    const isItemInCart = cartItems.find((cartItem) => cartItem.id === item.id);
 
-    if(isItemInCart){
-      setCartItems(
-        cartItems.map((cartItem) => 
-          cartItem.id === item.id
-          ? {...cartItem, quantity: cartItem.quantity + 1 }
-          : cartItem
-        )
-      )
-    } else {
-      setCartItems([...cartItems, { ...item, quantity: 1}]);
-    }
-  }
+  // const addToCart = (item) => {
+  //   const isItemInCart = cartItems.find((cartItem) => cartItem.id === item.id);
+
+  //   if(isItemInCart){
+  //     setCartItems(
+  //       cartItems.map((cartItem) => 
+  //         cartItem.id === item.id
+  //         ? {...cartItem, quantity: cartItem.quantity + 1 }
+  //         : cartItem
+  //       )
+  //     )
+  //   } else {
+  //     setCartItems([...cartItems, { ...item, quantity: 1}]);
+  //   }
+  // }
   
 
-  useEffect(() => {
-    const getOrders = async () => {
-      try {
-        const res = await api.get('api/store/orders/');
-        setOrder(res.data);
-      } catch (error) {
-        setError('Error fetching orders');
-        console.error('Error fetching orders:', error);
-      }
-    };
-    getOrders();
-  }, [navigate]);
+  // useEffect(() => {
+  //   const getOrders = async () => {
+  //     try {
+  //       const res = await api.get('api/store/orders/');
+  //       setOrder(res.data);
+  //     } catch (error) {
+  //       setError('Error fetching orders');
+  //       console.error('Error fetching orders:', error);
+  //     }
+  //   };
+  //   getOrders();
+  // }, [navigate]);
 
 
 
@@ -57,38 +60,35 @@ function Cart() {
     <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
       <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
         <div className="space-y-6">
-    	  {order.map((order) => (
-          order.items.map(item => (
- 
-          <div key={item.id} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+          <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
             <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-              <a href="#" className="w-20 shrink-0 md:order-1">
-                <img className="h-20 w-20 dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/iphone-light.svg" alt="imac image" />
-                <img className="hidden h-20 w-20 dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/iphone-dark.svg" alt="imac image" />
+              <a href="#" className="shrink-0 md:order-1">
+                <img className="h-20 w-20 dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="imac image" />
+                <img className="hidden h-20 w-20 dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="imac image" />
               </a>
 
               <label htmlFor="counter-input" className="sr-only">Choose quantity:</label>
               <div className="flex items-center justify-between md:order-3 md:justify-end">
                 <div className="flex items-center">
-                  <button type="button" id="decrement-button-5" data-input-counter-decrement="counter-input-5" className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                  <button type="button" id="decrement-button" data-input-counter-decrement="counter-input" className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
                     <svg className="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
                     </svg>
                   </button>
-                  <input type="text" id="counter-input-5" data-input-counter className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white" placeholder="" value={item.quantity} required />
-                  <button type="button" id="increment-button-5" data-input-counter-increment="counter-input-5" className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                  <input type="text" id="counter-input" data-input-counter className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white" placeholder="" value="2" required />
+                  <button type="button" id="increment-button" data-input-counter-increment="counter-input" className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
                     <svg className="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
                     </svg>
                   </button>
                 </div>
                 <div className="text-end md:order-4 md:w-32">
-                  <p className="text-base font-bold text-gray-900 dark:text-white">${item.price}</p>
+                  <p className="text-base font-bold text-gray-900 dark:text-white">$1,499</p>
                 </div>
               </div>
 
               <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-                <a href="#" className="text-base font-medium text-gray-900 hover:underline dark:text-white">{item.product}</a>
+                <a href="#" className="text-base font-medium text-gray-900 hover:underline dark:text-white">PC system All in One APPLE iMac (2023) mqrq3ro/a, Apple M3, 24" Retina 4.5K, 8GB, SSD 256GB, 10-core GPU, Keyboard layout INT</a>
 
                 <div className="flex items-center gap-4">
                   <button type="button" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
@@ -108,15 +108,9 @@ function Cart() {
               </div>
             </div>
           </div>
-
-        ))
-
-        ))}
-
-
+           
+          
         </div>
-
-
 
         <div className="hidden xl:mt-8 xl:block">
           <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">People also bought</h3>
@@ -284,7 +278,7 @@ function Cart() {
     </div>
   </div>
 </section>
-  );
+  )
 }
 
 export default Cart;

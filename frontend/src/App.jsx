@@ -6,9 +6,11 @@ import './App.css'
 import Cart from './pages/Cart'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import CartProvider from './components/CartProvider'
 
 function App() {
   return (
+    <CartProvider>
     <BrowserRouter>
       <Routes>
         <Route path='/login' element={<Login />} />
@@ -18,6 +20,7 @@ function App() {
         <Route path='/cart' element={<ProtectedRoute><Cart /> </ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
+    </CartProvider>
   )
 }
 

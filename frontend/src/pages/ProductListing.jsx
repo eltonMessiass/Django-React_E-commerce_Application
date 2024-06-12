@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Pagination from '../components/Pagination';
+import { CartContext } from '../components/CartProvider';
 
 function ProductListing() {
   const [product, setProduct] = useState([]);
   const [error, setError] = useState(null);
+  const {addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -47,7 +49,7 @@ function ProductListing() {
                 </div>
                 <div className='flex items-center justify-between'>
                   <span className='text-3xl font-bold text-gray-900 dark:text-white'>${product.price}</span>
-                  <a href='#' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Add to cart</a>
+                  <button href='#' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' onClick={() => addToCart(product) }>Add to cart</button>
                 </div>
               </div>
             </div>
