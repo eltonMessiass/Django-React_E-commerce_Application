@@ -1,7 +1,7 @@
 from django.http import Http404
 from rest_framework import status, generics
-from .serializers import CategorySerializer, ProductSerializer,OrderSerializer, OrderItemSerializer
-from .models import Category, Product, Order, OrderItem
+from .serializers import CategorySerializer, ProductSerializer,OrderSerializer, OrderItemSerializer, CartItemsSerializer, CartSerializer
+from .models import Category, Product, Order, OrderItem, Cart, CartItem
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,AllowAny
@@ -71,6 +71,13 @@ class ProductView(APIView):
             return Response(status=status.HTTP_200_OK)
         except Product.DoesNotExist:
             raise Http404
+
+class CartItemsCreate(generics.CreateAPIView):
+    serializer_class = CartItemsSerializer
+
+class CartList(generics.ListAPIView):
+    serializer_class = CartSerializer
+    queryset = Cart.objects.all()
 
 class OrderView(APIView):
     permission_classes = [IsAuthenticated]

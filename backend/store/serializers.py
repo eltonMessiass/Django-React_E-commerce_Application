@@ -1,4 +1,4 @@
-from .models import Category, Product, Order, OrderItem
+from .models import Category, Product, Order, OrderItem, Cart, CartItem
 from rest_framework import serializers
 
 
@@ -19,6 +19,23 @@ class ProductSerializer(serializers.ModelSerializer):
             return obj.image.url
         return None
 
+class CartItemsSerializer(serializers.ModelSerializer):
+    # product = serializers.StringRelatedField()
+    class Meta:
+        model = CartItem
+        fields = ["id", "product", "quanity"]
+    
+    def create(self, validated_data):
+        user = self.context['request'].user
+        cart, created = user.cart, Cart.objects.get_or_create(user=user)
+        validated_data['cart'] = cart
+        return super().create(validated_data)
+
+class CartSerializer(serializers.ModelSerializer):
+    items = CartItemsSerializer(many=True, read_only=True)
+    class Meta:
+        model = Cart
+        fields = ["items"]
 
 
 class OrderItemSerializer(serializers.ModelSerializer):

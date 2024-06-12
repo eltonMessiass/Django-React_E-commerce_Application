@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 # from django.contrib.auth.models import User
 from users.models import CustomerUser
@@ -26,7 +27,8 @@ class Product(models.Model):
         return quantity * self.price
     
 class Cart(models.Model):
-    user = models.OneToOneField(CustomerUser, on_delete=models.CASCADE, related_name="cart")
+    # user = models.OneToOneField(CustomerUser, on_delete=models.CASCADE, related_name="cart") 
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
 
     def __str__(self):
         return f"Cart of {self.user.username}"
@@ -38,7 +40,9 @@ class CartItem(models.Model):
     quanity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quanity} of {self.product.name} in cart of {self.cart.username}"
+        return f"{self.quanity} of {self.product.name} in cart of {self.cart.user.username}"
+    
+
 
 class Order(models.Model):
     customer = models.ForeignKey(CustomerUser, on_delete=models.CASCADE, related_name="user_id")
@@ -50,8 +54,7 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.id} by {self.customer.username}"
     
-    def update_total(self):
-        self.total = sum(item)
+
 
 
 class OrderItem(models.Model):

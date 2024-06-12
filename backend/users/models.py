@@ -4,8 +4,6 @@ from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, Group, Permission
 
 
-# class CustomerUser(AbstractUser):
-#     pass
 
 class CustomerUser(AbstractUser):
     groups =models.ManyToManyField(Group, related_name='customer_user', blank=True)
