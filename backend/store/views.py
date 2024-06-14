@@ -74,6 +74,7 @@ class ProductView(APIView):
 
 class CartItemsCreate(generics.CreateAPIView):
     serializer_class = CartItemsSerializer
+    permission_classes = [IsAuthenticated]
 
 class CartList(generics.ListAPIView):
     serializer_class = CartSerializer
@@ -104,9 +105,3 @@ class OrderItemView(generics.ListCreateAPIView):
     queryset = OrderItem.objects.all()
 
 
-
-
-
-    
-
-    
