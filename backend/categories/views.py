@@ -20,5 +20,6 @@ class CategoryListCreateView(generics.ListCreateAPIView):
             return (serializer.errors)
         
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()

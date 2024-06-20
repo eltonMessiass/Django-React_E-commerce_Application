@@ -7,10 +7,10 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 
 class CustomerUser(AbstractUser):
     groups =models.ManyToManyField(Group, related_name='customer_user', blank=True)
-    user_permissions = models.ManyToManyField(Permission, related_name='customer_set', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='customer_set', blank=True) 
 
-from store.models import Cart
-@receiver(post_save, sender=CustomerUser)
-def create_user_cart(sender, instance, created, **Kwargs):
-    if created:
-        Cart.objects.create(user=instance)
+# from store.models import Cart
+# @receiver(post_save, sender=CustomerUser)
+# def create_user_cart(sender, instance, created, **Kwargs):
+#     if created:
+#         Cart.objects.create(user=instance)
