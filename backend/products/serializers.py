@@ -13,7 +13,7 @@ class ProductReadSerializer(serializers.ModelSerializer):
 class ProductWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ["name", "description", "price", "category", "stock"]
+        fields = ["id","name", "description", "price", "category", "stock"]
         extra_Kwargs = {
             'name': {'required':True},
             'category': {'required': True}
