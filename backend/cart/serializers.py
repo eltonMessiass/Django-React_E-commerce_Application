@@ -9,6 +9,14 @@ class CartItemWriteSerializer(serializers.ModelSerializer):
         fields = ['id', "product", "quantity"]
 
 
+    def create(self, validated_data):
+        user = self.context['request'].user
+        cart, created = Cart.objects.get_or_create(user=user)
+        validated_data['cart'] = cart
+        return super().create(validated_data)
+
+
+
 class CartItemReadSerializer(serializers.ModelSerializer):
     product = serializers.StringRelatedField()
     class Meta:

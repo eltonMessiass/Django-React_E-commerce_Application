@@ -9,7 +9,7 @@ urlpatterns = ([
     path('api/user/', include('users.urls')),
     path('api/', include('products.urls')),
     path('api/categories/', include('categories.urls')),
-    path('api/cart/', include('cart.urls')),
+    path('api/', include('cart.urls')),
     path('api/orders/', include('orders.urls')),
     path('api-auth/', include('rest_framework.urls')),
 ]) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

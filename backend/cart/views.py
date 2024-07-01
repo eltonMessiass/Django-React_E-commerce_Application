@@ -32,13 +32,13 @@ class CartItemDetaitlView(APIView):
         try:
             return CartItem.objects.get(pk=pk)
         except CartItem.DoesNotExist:
-            raise Http404
+          raise Http404
         
     def delete(self, request, pk, format=None):
         item = self.get_object(pk)
         item.delete()
         return Response("item removed", status=status.HTTP_204_NO_CONTENT)
-    
+   
     def update(self, request, pk, format=None):
         try:
             item = self.get_object(pk)

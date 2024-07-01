@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from users.models import CustomerUser
 from products.models import Product
@@ -5,6 +6,8 @@ from products.models import Product
 
 
 class Cart(models.Model):
+    # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
+
     user = models.OneToOneField(CustomerUser, on_delete=models.CASCADE, related_name='cart')
 
     def __str__(self):
