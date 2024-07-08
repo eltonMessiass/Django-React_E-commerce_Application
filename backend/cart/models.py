@@ -6,9 +6,9 @@ from products.models import Product
 
 
 class Cart(models.Model):
-    # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
 
-    user = models.OneToOneField(CustomerUser, on_delete=models.CASCADE, related_name='cart')
+    # user = models.OneToOneField(CustomerUser, on_delete=models.CASCADE, related_name='cart')
 
     def __str__(self):
         return f"Carf of {self.user.username}"

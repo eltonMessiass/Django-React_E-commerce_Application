@@ -6,8 +6,8 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 
 
 class CustomerUser(AbstractUser):
-    groups =models.ManyToManyField(Group, related_name='customer_user', blank=True)
-    user_permissions = models.ManyToManyField(Permission, related_name='customer_set', blank=True) 
+    groups =models.ManyToManyField(Group, related_name='customer_users', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='customer_users', blank=True) 
 
 from cart.models import Cart
 @receiver(post_save, sender=CustomerUser)

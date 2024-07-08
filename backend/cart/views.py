@@ -2,12 +2,20 @@ from django.http import Http404
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CartItemWriteSerializer, CartItemReadSerializer
+from .serializers import CartItemWriteSerializer, CartItemReadSerializer, CartSerializer
 from rest_framework.response import Response
 from  rest_framework import status
-from .models import CartItem
+from .models import CartItem, Cart
 
 
+
+class UserCartView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        cart = Cart.objects.get(user=request.user)
+        serializer = CartSerializer(cart)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
 
 class CartItemView(APIView):

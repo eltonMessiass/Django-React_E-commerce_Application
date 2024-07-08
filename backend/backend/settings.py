@@ -138,10 +138,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_ecommerce_db',
+        'NAME': 'django_ecommerce',
         'USER': 'postgres',
         'PASSWORD': 'messias8669',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
     }
 }
 
@@ -164,6 +164,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.CustomerUser'
 
 
 PASSWORD_HASHERS = [
