@@ -47,9 +47,10 @@ class CartItemDetaitlView(APIView):
         item.delete()
         return Response("item removed", status=status.HTTP_204_NO_CONTENT)
    
-    def update(self, request, pk, format=None):
+    def put(self, request, pk, format=None):
         try:
             item = self.get_object(pk)
+            serializer = CartItemWriteSerializer(item, data=request.data)
             quantity = request.data.get('quantity')
 
             if quantity is None:
@@ -58,7 +59,9 @@ class CartItemDetaitlView(APIView):
                 return Response({'error': 'Quantity must be greater than zero'}, status=status.HTTP_400_BAD_REQUEST)
               
             item.quantity = quantity
-            item.save()
+            # item.save()
+            if serializer.is_valid():
+                serializer.save()
 
             return Response({'status': 'quantity updated'}, status=status.HTTP_200_OK)
         except CartItem.DoesNotExist:
